@@ -9,6 +9,16 @@
   "theme_color": "#1f2945",
   "icons": [
     {
+      "src": "img/stephans_health.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/stephans_health.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
       "src": "img/appicon-192.png",
       "sizes": "192x192",
       "type": "image/png"
