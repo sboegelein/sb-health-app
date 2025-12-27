@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stephan's Health</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="app-background"></div>
+
+    <div class="app">
+      <!-- Header: nur App-Name -->
+      <header class="app-header">
+        <div class="header-row">
+          <img src="img/stephans_health.png" alt="Stephan's Health-Icon" class="header-icon" />
+          <div class="header-name">
+            <span>Stephan's Health</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <!-- DASHBOARD -->
+        <section class="tab-screen active" id="tab-dashboard">
+          <h1 class="screen-title">Dashboard</h1>
+          <p class="screen-subtitle">Übersicht deiner Woche, deines Tagesziels und des aktuellen Status.</p>
+
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-header">
+                <h2 class="card-title">Wochenübersicht</h2>
+                <span class="card-tag" id="weekLabel">KW 00</span>
+              </div>
+              <div class="card-body">
+                <div class="card-row">
+                  <span class="card-label">Aktive Tage (Bewegung)</span>
+                  <span class="card-value" id="weekActiveDays">0 / 7</span>
+                </div>
+                <div class="card-row">
+                  <span class="card-label">Running gesamt</span>
+                  <span class="card-value" id="weekRunningKm">0 km</span>
+                </div>
+                <div class="card-row">
+                  <span class="card-label">Krafttraining-Sätze</span>
+                  <span class="card-value" id="weekStrengthSets">0</span>
+                </div>
+                <p class="card-note" id="weekNote">Werte basieren auf deinen Einträgen dieser Woche.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <h2 class="card-title">Tagesziel</h2>
+                <span class="card-tag card-tag-accent">Heute</span>
+              </div>
+              <div class="card-body">
+                <div class="status-row">
+                  <span class="card-label">Übungen</span>
+                  <span class="card-value" id="todayExercisesValue">0 %</span>
+                </div>
+                <div class="status-row">
+                  <span class="card-label">Ernährung</span>
+                  <span class="card-value" id="todayNutritionValue">0 %</span>
+                </div>
+                <div class="status-row">
+                  <span class="card-label">Sport (Running oder Kraft)</span>
+                  <span class="card-value" id="todaySportValue">0 %</span>
+                </div>
+
+                <div class="status-row" style="margin-top: 6px;">
+                  <span class="card-label">Gesamt (Mittelwert)</span>
+                  <span class="card-value" id="todayOverallValue">0 %</span>
+                </div>
+
+                <div class="progress-bar">
+                  <div class="progress-bar-fill" id="todayProgressBar" style="width: 0%;"></div>
+                </div>
+
+                <p class="card-note" id="dailyGoalDescription"></p>
+                <p class="card-note card-note-strong" id="todayProgressNote">Noch keine Einträge für heute.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <h2 class="card-title">Tagesziel – letzte 7 Tage</h2>
+                <span class="card-tag card-tag-secondary">Historie</span>
+              </div>
+              <div class="card-body">
+                <div id="dailyGoalHistory" class="daily-goal-history"></div>
+                <p class="card-note">Zeigt dir, an welchen der letzten 7 Tage du dein Tagesziel erreicht hast.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ERNÄHRUNG -->
+        <section class="tab-screen" id="tab-ernaehrung">
+          <h1 class="screen-title">Ernährung</h1>
+          <p class="screen-subtitle">Klicke die Felder an. Speichere anschließend für dieses Datum.</p>
+
+          <div class="date-bar">
+            <label for="nutritionDateInput" class="date-label">Datum</label>
+            <input type="date" id="nutritionDateInput" class="form-input date-input" />
+            <button type="button" id="nutritionTodayButton" class="chip-button">Heute</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Ernährungspyramide</h2>
+              <span class="card-tag card-tag-secondary">Tagestracking</span>
+            </div>
+
+            <div class="card-body">
+              <div class="nutrition-layout nutrition-layout--centered">
+                <div class="nutrition-pyramid" id="nutritionPyramid"></div>
+
+                <div class="nutrition-explanation nutrition-explanation--below">
+                  <ul class="nutrition-list">
+                    <li><strong>1× Extras, Genussmittel</strong></li>
+                    <li><strong>2× Fette, Öle, Nüsse, Avocado</strong></li>
+                    <li><strong>3 + 1× Milch &amp; Milchprodukte, Wurst &amp; Fleisch, Fisch, Ei</strong></li>
+                    <li><strong>4× Brot, Brötchen, Getreide, Kartoffeln, Hirse, Quinoa</strong></li>
+                    <li><strong>3× Gemüse, 2× Obst</strong></li>
+                    <li><strong>6× Getränke (energiefrei)</strong></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="nutrition-actions">
+                <button id="saveNutritionButton" class="primary-button">
+                  Ernährung für dieses Datum speichern
+                </button>
+                <p class="card-note" id="nutritionSaveNote">Deine Einträge werden lokal gespeichert.</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="nutrition-tip-wide">
+            Tipp: Klick auf ein Feld setzt die Anzahl bis zu diesem Feld. Klick auf das letzte aktive Feld reduziert wieder um 1.
+          </p>
+        </section>
+
+        <!-- SPORT -->
+        <section class="tab-screen" id="tab-sport">
+          <h1 class="screen-title">Sport</h1>
+          <p class="screen-subtitle">Erfasse deinen Sport für ein beliebiges Datum (Running &amp; Krafttraining).</p>
+
+          <div class="date-bar">
+            <label for="sportDateInput" class="date-label">Datum</label>
+            <input type="date" id="sportDateInput" class="form-input date-input" />
+            <button type="button" id="sportTodayButton" class="chip-button">Heute</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Running – ausgewählter Tag</h2>
+              <span class="card-tag" id="runningDateLabel">Heute</span>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="runningDistanceInput" class="form-label">Gelaufene Distanz (in km)</label>
+                <input
+                  type="number"
+                  inputmode="decimal"
+                  step="0.1"
+                  min="0"
+                  id="runningDistanceInput"
+                  class="form-input"
+                  placeholder="z. B. 5,0"
+                />
+              </div>
+
+              <button id="saveRunningButton" class="primary-button">Running für dieses Datum speichern</button>
+              <button id="deleteRunningButton" class="primary-button secondary-button">Running-Eintrag löschen</button>
+
+              <div class="running-current" id="runningCurrentValue">Kein Running-Eintrag gespeichert.</div>
+              <p class="card-note card-note-strong" id="runningSaveNote">Der Wert wird lokal auf deinem Gerät gespeichert.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Krafttraining – ausgewählter Tag</h2>
+              <span class="card-tag" id="strengthDateLabel">Heute</span>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="strengthExerciseInput" class="form-label">Übung</label>
+                <input type="text" id="strengthExerciseInput" class="form-input" placeholder="z. B. Kniebeuge" />
+              </div>
+
+              <div class="form-group-inline">
+                <div class="form-group small">
+                  <label for="strengthWeightInput" class="form-label">Gewicht (kg)</label>
+                  <input type="number" step="0.5" min="0" id="strengthWeightInput" class="form-input" placeholder="z. B. 40" />
+                </div>
+                <div class="form-group small">
+                  <label for="strengthRepsInput" class="form-label">Wiederholungen</label>
+                  <input type="number" min="1" step="1" id="strengthRepsInput" class="form-input" placeholder="z. B. 12" />
+                </div>
+                <div class="form-group small">
+                  <label for="strengthSetsInput" class="form-label">Sätze</label>
+                  <input type="number" min="1" step="1" id="strengthSetsInput" class="form-input" placeholder="z. B. 3" />
+                </div>
+              </div>
+
+              <button id="addStrengthSetButton" class="primary-button secondary-button">Satz hinzufügen</button>
+
+              <p class="form-error" id="strengthError" style="display:none;"></p>
+
+              <div id="strengthList" class="strength-list"></div>
+
+              <p class="card-note">
+                Sport-Ziel zählt als erfüllt, wenn du am Tag entweder Running einträgst oder mindestens 2 Übungen mit jeweils ≥ 3 Sätzen erfasst.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ÜBUNGEN -->
+        <section class="tab-screen" id="tab-uebungen">
+          <h1 class="screen-title">Übungen</h1>
+          <p class="screen-subtitle">Wähle ein Datum und hake ab, was du erledigt hast.</p>
+
+          <div class="date-bar">
+            <label for="exercisesDateInput" class="date-label">Datum</label>
+            <input type="date" id="exercisesDateInput" class="form-input date-input" />
+            <button type="button" id="exercisesTodayButton" class="chip-button">Heute</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Übungen am Tag</h2>
+              <span class="card-tag" id="exercisesDateLabel">Heute</span>
+            </div>
+            <div class="card-body">
+              <div id="exerciseList" class="exercise-list"></div>
+
+              <button id="saveExercisesButton" class="primary-button">Übungen für dieses Datum speichern</button>
+              <button id="resetExercisesToday" class="primary-button secondary-button">Übungen für dieses Datum zurücksetzen</button>
+
+              <p class="card-note" id="exerciseSaveNote">Deine Änderungen werden gespeichert.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">History – Übungen</h2>
+              <span class="card-tag">Letzte Einträge</span>
+            </div>
+            <div class="card-body">
+              <div id="exerciseHistoryList" class="history-list"></div>
+              <p class="card-note">Tippe auf einen Tag, um ihn oben als Datum zu laden.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- TIMER -->
+        <section class="tab-screen" id="tab-timer">
+          <h1 class="screen-title">Timer</h1>
+          <p class="screen-subtitle">Starte einen der vorbereiteten Timer für deine Anwendungen.</p>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Wärmekissen</h2>
+              <span class="card-tag">10:00</span>
+            </div>
+            <div class="card-body">
+              <div class="timer-display" id="timerHeatDisplay">10:00</div>
+              <div class="timer-meta">Für Nackenentspannung und Wärmebehandlung.</div>
+              <div class="timer-actions">
+                <button type="button" class="chip-button" id="timerHeatStart">Start</button>
+                <button type="button" class="chip-button chip-danger" id="timerHeatReset">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Eisbad</h2>
+              <span class="card-tag">1:10</span>
+            </div>
+            <div class="card-body">
+              <div class="timer-display" id="timerIceDisplay">1:10</div>
+              <div class="timer-meta">Kurz, fokussiert und kontrolliert.</div>
+              <div class="timer-actions">
+                <button type="button" class="chip-button" id="timerIceStart">Start</button>
+                <button type="button" class="chip-button chip-danger" id="timerIceReset">Reset</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AUSWERTUNG -->
+        <section class="tab-screen" id="tab-auswertung">
+          <h1 class="screen-title">Auswertung</h1>
+          <p class="screen-subtitle">Hier kannst du deine Daten exportieren.</p>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Datenexport</h2>
+              <span class="card-tag">JSON</span>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Exportiert alle lokal gespeicherten Daten als JSON-Datei.</p>
+              <button id="exportJsonButton" class="primary-button">Daten als JSON exportieren</button>
+              <p class="card-note" id="exportJsonInfo">Die Datei wird lokal in deinem Browser heruntergeladen.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Datenimport</h2>
+              <span class="card-tag">JSON</span>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Importiert eine zuvor exportierte JSON-Datei und überschreibt die lokalen Daten.</p>
+              <input type="file" id="importJsonFile" class="form-input" accept="application/json" />
+              <button id="importJsonButton" class="primary-button secondary-button">JSON importieren</button>
+              <p class="card-note" id="importJsonInfo">Bitte nur JSON-Dateien aus diesem Export verwenden.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <nav class="app-nav">
+        <button class="tab-button active" data-tab="dashboard"><span class="tab-label">Dashboard</span></button>
+        <button class="tab-button" data-tab="ernaehrung"><span class="tab-label">Ernährung</span></button>
+        <button class="tab-button" data-tab="sport"><span class="tab-label">Sport</span></button>
+        <button class="tab-button" data-tab="uebungen"><span class="tab-label">Übungen</span></button>
+        <button class="tab-button" data-tab="timer"><span class="tab-label">Timer</span></button>
+        <button class="tab-button" data-tab="auswertung"><span class="tab-label">Summary</span></button>
+      </nav>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

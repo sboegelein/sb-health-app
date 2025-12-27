@@ -1,0 +1,546 @@
+/* Global Reset & Grundlayout */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #070b14;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.app-shell {
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Weiches iOS-Gradient (heller) */
+.app-background {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(165, 180, 252, 0.55) 0%, transparent 52%),
+    radial-gradient(circle at bottom right, rgba(249, 168, 212, 0.5) 0%, transparent 55%),
+    linear-gradient(180deg, #0b1224 0%, #162044 40%, #25345f 70%, #35518b 100%);
+  opacity: 0.95;
+}
+
+/* App Container */
+.app {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 100svh;
+  max-height: 932px;
+  background: rgba(17, 24, 39, 0.78);
+  border-radius: 40px;
+  backdrop-filter: blur(28px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Header: nur App-Name */
+.app-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(8px + env(safe-area-inset-top)) 16px 6px;
+  background: rgba(17, 24, 39, 0.86);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  min-height: calc(44px + env(safe-area-inset-top));
+}
+
+.header-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.header-icon {
+  width: 63px;
+  height: 63px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  align-self: flex-start;
+}
+
+.header-name {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header-name span {
+  font-size: 18px;
+  font-weight: 750;
+  color: #f9fafb;
+  letter-spacing: 0.2px;
+}
+
+.app-main {
+  flex: 1;
+  padding: 18px 20px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow-y: auto;
+  padding-bottom: calc(14px + env(safe-area-inset-bottom));
+}
+
+/* Screens */
+.tab-screen { display: none; animation: fadeIn 0.25s ease-out; }
+.tab-screen.active { display: block; }
+
+.screen-title {
+  font-size: 22px;
+  font-weight: 750;
+  color: #f9fafb;
+  margin-bottom: 10px;
+}
+
+.screen-subtitle {
+  font-size: 13px;
+  color: #cbd5e1;
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.screen-text { font-size: 14px; color: #e5e7eb; opacity: 0.9; }
+
+/* Dashboard Cards */
+.card-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.card {
+  background: rgba(17, 24, 39, 0.78);
+  border-radius: 18px;
+  padding: 12px 14px 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.card-title { font-size: 15px; font-weight: 650; color: #e5e7eb; }
+
+.card-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.card-tag-secondary { border-color: rgba(96, 165, 250, 0.8); color: #bfdbfe; }
+.card-tag-accent { border-color: rgba(52, 211, 153, 0.8); color: #a7f3d0; }
+
+.card-body { display: flex; flex-direction: column; gap: 4px; }
+
+.card-row, .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.card-label { color: #cbd5e1; opacity: 0.75; }
+.card-value { color: #f1f5f9; font-weight: 650; }
+
+.card-note { font-size: 11px; color: rgba(255,255,255,0.70); margin-top: 6px; }
+.card-note-strong { color: rgba(255,255,255,0.95); font-weight: 650; }
+
+.card-text { font-size: 13px; color: #e5e7eb; margin-bottom: 4px; }
+.card-list { list-style: none; font-size: 12px; color: #e5e7eb; opacity: 0.9; margin-top: 4px; }
+
+/* Running sichtbar machen */
+.running-current {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 650;
+  color: #e2e8f0;
+  background: rgba(59, 130, 246, 0.18);
+  border: 1px solid rgba(59, 130, 246, 0.45);
+}
+
+.running-current.is-empty {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.25);
+  color: rgba(226, 232, 240, 0.75);
+  font-weight: 600;
+}
+
+/* Progressbar */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(31, 41, 55, 0.75);
+  overflow: hidden;
+  margin-top: 6px;
+}
+.progress-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #22c55e, #4ade80); }
+
+/* Übungen */
+.exercise-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+
+.exercise-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(55, 65, 81, 0.7);
+}
+
+.exercise-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #22c55e; cursor: pointer; }
+.exercise-label { font-size: 13px; color: #e5e7eb; }
+.exercise-label span { display: block; font-size: 11px; color: #cbd5e1; opacity: 0.75; margin-top: 2px; }
+
+.exercise-item.completed {
+  border-color: rgba(34, 197, 94, 0.8);
+  background: rgba(22, 163, 74, 0.12);
+}
+
+/* History – Übungen */
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(55, 65, 81, 0.7);
+}
+.history-item-date {
+  font-size: 13px;
+  color: #f8fafc;
+  margin-bottom: 2px;
+}
+.history-item-sub {
+  font-size: 12px;
+  color: rgba(248, 250, 252, 0.85);
+}
+.history-item-count {
+  font-size: 13px;
+  color: #f8fafc;
+  font-weight: 650;
+}
+
+/* Formulare */
+.form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.form-group.small { margin-bottom: 0; flex: 1 1 0; min-width: 0; }
+
+.form-group-inline { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+@media (max-width: 380px) { .form-group-inline { flex-direction: column; } }
+
+.form-label { font-size: 12px; color: #cbd5e1; opacity: 0.8; }
+
+.form-input {
+  border-radius: 12px;
+  border: 1px solid rgba(75, 85, 99, 0.9);
+  background: rgba(15, 23, 42, 0.92);
+  color: #ffffff;
+  font-size: 13px;
+  padding: 8px 10px;
+  outline: none;
+}
+
+.form-input::placeholder { color: rgba(255,255,255,0.45); }
+.form-input:focus { border-color: rgba(59, 130, 246, 0.8); }
+
+/* Buttons */
+.primary-button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: none;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s ease, transform 0.1s ease, opacity 0.15s ease;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #f9fafb;
+}
+.primary-button.secondary-button {
+  background: rgba(31, 41, 55, 0.90);
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
+.primary-button:active { transform: scale(0.97); opacity: 0.9; }
+
+/* Datumszeile */
+.date-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.date-label { font-size: 12px; color: #cbd5e1; opacity: 0.8; }
+.date-input { max-width: 160px; }
+
+.form-error { font-size: 11px; color: #fca5a5; margin-top: 6px; }
+
+/* Mini-Historie Tagesziel */
+.daily-goal-history { display: flex; flex-direction: column; gap: 8px; }
+.daily-goal-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.daily-goal-date { color: #ffffff; opacity: 0.9; font-size: 0.9rem; }
+
+.daily-goal-rings {
+  position: relative;
+  width: 52px;
+  height: 52px;
+}
+
+.daily-goal-ring {
+  --ring-color: #22c55e;
+  --ring-bg: rgba(255,255,255,0.08);
+  --ring-percent: 0;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--ring-color) calc(var(--ring-percent) * 1%),
+    var(--ring-bg) 0
+  );
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.daily-goal-ring::after {
+  content: "";
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 50%;
+  background: rgba(8, 12, 22, 0.9);
+}
+
+.daily-goal-ring.sport { --ring-color: #38bdf8; }
+.daily-goal-ring.nutrition { --ring-color: #22c55e; }
+.daily-goal-ring.exercises { --ring-color: #f87171; }
+
+.daily-goal-ring.nutrition { inset: 6px; }
+.daily-goal-ring.exercises { inset: 12px; }
+
+/* Bottom Navigation */
+.app-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 8px calc(18px + env(safe-area-inset-bottom));
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.tab-button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 4px;
+  margin: 0 3px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  position: relative;
+}
+
+.tab-button .tab-label {
+  display: block;
+  font-size: 11px;
+  color: rgba(255,255,255,0.70);
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.tab-button.active {
+  background: rgba(59, 130, 246, 0.30);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.18);
+}
+
+.tab-button.active .tab-label {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.tab-button.active::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 6px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.85);
+}
+
+/* =========================
+   ERNÄHRUNG – zentriert + stabil
+   ========================= */
+
+.nutrition-layout--centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Pyramide: Basis unten -> column-reverse */
+.nutrition-pyramid {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 16px;
+  width: auto;
+  max-width: 320px;
+}
+
+.pyramid-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pyramid-cube {
+  position: relative;
+  width: clamp(32px, 7.2vw, 46px);
+  height: clamp(32px, 7.2vw, 46px);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pyramid-cube::before {
+  content:"";
+  width: clamp(18px, 4.2vw, 28px);
+  height: clamp(18px, 4.2vw, 28px);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.95;
+}
+
+.pyramid-cube.active {
+  border-color:#2ecc71;
+  box-shadow: 0 0 0 2px rgba(46,204,113,0.35);
+}
+
+.pyramid-cube.active::after {
+  content:"✓";
+  position:absolute;
+  right:-2px;
+  bottom:-2px;
+  font-size: 14px;
+  color:#2ecc71;
+}
+
+/* ICON-PFADE: style.css liegt in /css -> ../img */
+.pyramid-cube--drinks::before    { background-image: url("../img/nutrition-drinks.png"); }
+.pyramid-cube--veg_fruit::before { background-image: url("../img/nutrition-veg-fruit.png"); }
+.pyramid-cube--carbs::before     { background-image: url("../img/nutrition-carbs.png"); }
+.pyramid-cube--milk_meat::before { background-image: url("../img/nutrition-milk-meat.png"); }
+.pyramid-cube--fats::before      { background-image: url("../img/nutrition-fats.png"); }
+.pyramid-cube--extras::before    { background-image: url("../img/nutrition-extras.png"); }
+
+/* Beschreibung unter der Pyramide */
+.nutrition-explanation--below {
+  text-align: center;
+  max-width: 340px;
+}
+
+.nutrition-explanation--below .nutrition-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nutrition-explanation--below .nutrition-list li {
+  font-size: 0.7rem;
+  line-height: 1.15rem;
+  margin-bottom: 4px;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Tipp unter der Card: volle Breite */
+.nutrition-tip-wide {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.25rem;
+  color: rgba(255,255,255,0.78);
+}
+
+.nutrition-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Kleine Chip-Buttons */
+.chip-button {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 11px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+}
+.chip-button:active { transform: scale(0.97); opacity: 0.9; }
+
+.chip-danger { border-color: rgba(248, 113, 113, 0.9); color: #fecaca; }
+
+/* Timer */
+.timer-display {
+  font-size: 24px;
+  font-weight: 750;
+  color: #f8fafc;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.timer-meta {
+  font-size: 12px;
+  color: rgba(226, 232, 240, 0.8);
+  margin-bottom: 8px;
+}
+
+.timer-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  .app-shell { align-items: stretch; }
+  .app {
+    max-width: none;
+    width: 100%;
+    height: 100svh;
+    max-height: none;
+    border-radius: 0;
+    border: none;
+  }
+  .app-header { padding-left: 16px; padding-right: 16px; }
+  .app-main { padding-left: 16px; padding-right: 16px; }
+  .app-nav { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
